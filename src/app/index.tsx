@@ -8,6 +8,7 @@ const  AppShell: React.FC = () => {
             <Header/>
             <Loader/>
             <Dialog/>
+
             </>
     );
 };
