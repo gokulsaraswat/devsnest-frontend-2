@@ -6,6 +6,7 @@ import Login from "./Login";
 import {SessionProvider} from "./session/index";
 import AuthenticatedRoutes from "./AuthenticatedRoutes";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
+import Events from './components/Events';
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -17,6 +18,7 @@ const theme = createMuiTheme({
 
 const App: React.ElementType = () => {
   return (
+      <>
         <SessionProvider>
             <MuiThemeProvider theme={theme}>
             <Router>
@@ -27,6 +29,8 @@ const App: React.ElementType = () => {
             </Router>
             </MuiThemeProvider>
         </SessionProvider>
+        <Events/>
+        </>
 )};
 
 export default App;
