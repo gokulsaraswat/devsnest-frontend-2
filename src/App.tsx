@@ -1,13 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-// import Home from './romponents/Home';
-import Login from './romponents/Login';
-import SignUp from './romponents/SignUp';
-import ListOfCurriculum from './romponents/ListOfCurriculum';
-import Curriculum from './romponents/Curriculum';
-import Setting from './romponents/Setting';
-import Komal from './romponents/kom';
+import Login from './Components/Login';
+import SignUp from './Components/SignUp';
+import ListOfCurriculum from './Components/ListOfCurriculum';
+import Curriculum from './Components/Curriculum';
+import Setting from './Components/Setting';
 
 const App: React.ElementType = () => {
   return (
@@ -19,7 +17,6 @@ const App: React.ElementType = () => {
           <Route exact path="/" component={ListOfCurriculum} />
           <Route exact path="/curriculum/:id" component={Curriculum} />
           <Route exact path="/setting" component={Setting} />
-          <Route exact path="/kom" component={Komal} />
         </Switch>
       </Router>
     </div>

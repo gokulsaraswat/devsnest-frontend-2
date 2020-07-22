@@ -5,11 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Header from './Header';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import axios from '../config/axios.config';
 
-import ListItemText from '@material-ui/core/ListItemText';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -60,10 +57,10 @@ function SettingPage() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res, '============');
+      console.log(res);
     }
   };
-  console.log(userUpdate, 'stateeeeeeeeeee');
+  console.log(userUpdate);
   return (
     <div className={classes.root}>
       <Header />
