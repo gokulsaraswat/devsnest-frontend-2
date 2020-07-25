@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import axios from '../config/axios.config';
 import Box from '@material-ui/core/Box';
+import { useForm } from 'react-hook-form';
+import { CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,8 +53,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+type State = {
+  name: string;
+  email: string;
+  aboutMe: string;
+  github: string;
+  institution: string;
+};
 function SettingPage() {
   const classes = useStyles();
+  const { register, handleSubmit, errors } = useForm();
 
   const [userUpdate, setUserUpdate] = useState({
     name: '',
@@ -61,21 +71,56 @@ function SettingPage() {
     github: '',
     institution: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event: any) => {
     setUserUpdate({ ...userUpdate, [event.target.name]: event.target.value });
   };
 
-  const submit = async (e: any) => {
-    let token: string = localStorage.getItem('Token') || '';
-    e.preventDefault();
-    if (token != '') {
-      const res = await axios.post('/api/users', userUpdate, {
+  let token: string = localStorage.getItem('Token') || '';
+  let userData: State | null = null;
+  async function fetchMyAPI() {
+    if (token !== '') {
+      const res = await axios.get(`/api/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
+      const { data } = res;
+      if (data !== {}) {
+        userData = {
+          name: data.data.userData.name,
+          email: data.data.userData.email,
+          aboutMe: data.data.userData.aboutMe,
+          github: data.data.userData.github,
+          institution: data.data.userData.institution,
+        };
+        setUserUpdate(userData);
+      }
+      console.log(userData);
+    }
+  }
+  console.log(userUpdate);
+
+  useEffect(() => {
+    fetchMyAPI();
+  }, []);
+
+  const submit = async (e: any) => {
+    let token: string = localStorage.getItem('Token') || '';
+    setLoading(true);
+    if (token != '') {
+      await axios
+        .post('/api/users', userUpdate, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setLoading(false);
+          console.log(res);
+        })
+        .catch((e) => {});
     }
   };
 
@@ -109,7 +154,7 @@ function SettingPage() {
                 className={classes.From}
                 noValidate
                 autoComplete="off"
-                onSubmit={submit}
+                onSubmit={handleSubmit(submit)}
               >
                 <TextField
                   className={classes.Field}
@@ -117,49 +162,85 @@ function SettingPage() {
                   label="Name"
                   name="name"
                   variant="outlined"
-                  defaultValue={userUpdate.name}
+                  error={!!errors.name}
+                  value={userUpdate.name}
+                  inputRef={register({ required: true, maxLength: 20 })}
                   onChange={handleChange}
                 />
-
+                <div style={{ color: 'red' }}>
+                  {' '}
+                  {errors.name && <p>This field is required</p>}
+                </div>
                 <TextField
                   className={classes.Field}
                   id="outlined-basic"
                   label="email"
                   name="email"
                   variant="outlined"
-                  defaultValue={userUpdate.email}
+                  value={userUpdate.email}
+                  error={!!errors.email}
                   onChange={handleChange}
+                  inputRef={register({
+                    pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  })}
                 />
+                <p style={{ color: 'red' }}>
+                  {errors.email && 'Invalid email address'}
+                </p>
+
                 <TextField
                   className={classes.Field}
                   id="aboutMe"
                   label="aboutMe"
                   name="aboutMe"
+                  error={!!errors.aboutMe}
                   variant="outlined"
-                  defaultValue={userUpdate.aboutMe}
+                  value={userUpdate.aboutMe}
+                  inputRef={register({ required: true, maxLength: 20 })}
                   onChange={handleChange}
                 />
+                <div style={{ color: 'red' }}>
+                  {' '}
+                  {errors.aboutMe && <p>This field is required</p>}
+                </div>
                 <TextField
                   className={classes.Field}
                   id="github"
                   label="github"
                   name="github"
                   variant="outlined"
-                  defaultValue={userUpdate.github}
+                  error={!!errors.github}
+                  value={userUpdate.github}
+                  inputRef={register({ required: true, maxLength: 20 })}
                   onChange={handleChange}
                 />
-
+                <div style={{ color: 'red' }}>
+                  {' '}
+                  {errors.github && <p>This field is required</p>}
+                </div>
                 <TextField
                   className={classes.Field}
                   id="institution"
                   label="institution"
                   name="institution"
                   variant="outlined"
-                  defaultValue={userUpdate.institution}
+                  error={!!errors.institution}
+                  value={userUpdate.institution}
+                  inputRef={register({ required: true, maxLength: 20 })}
                   onChange={handleChange}
                 />
-                <Button type="submit" variant="contained" color="primary">
-                  UPDATE
+                <div style={{ color: 'red' }}>
+                  {' '}
+                  {errors.institution && <p>This field is required</p>}
+                </div>
+                <Button
+                  disabled={loading}
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                >
+                  {loading && <CircularProgress size={14} />}
+                  {!loading && 'UPDATE'}
                 </Button>
               </form>
             </div>
