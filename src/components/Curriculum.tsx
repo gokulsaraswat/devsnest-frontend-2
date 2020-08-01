@@ -4,7 +4,7 @@ import Header from './Header';
 import Chapter from './Chapter';
 import {} from '../config/axios.config';
 function Curriculum(props: any) {
-  const [xhapters, setChapters] = useState([[]]);
+  const [chapters, setChapters] = useState([]);
 
   const id: number = props.match.params.id;
   let percentageCompleted: number;
@@ -33,20 +33,18 @@ function Curriculum(props: any) {
     fetchDetails();
   }, []);
 
+  console.log('chapters: ', chapters);
   return (
     <>
       <Header />
-      {xhapters.map((task: any) => {
-        return (
-          <>
-            <Chapter
-              task={task}
-              percentageCompleted={percentageCompleted}
-              updateAllTasks={() => fetchDetails()}
-            />
-          </>
-        );
-      })}
+      {chapters.map((task: any) => (
+        <Chapter
+          key={task.id}
+          task={task}
+          percentageCompleted={percentageCompleted}
+          updateAllTasks={() => fetchDetails()}
+        />
+      ))}
     </>
   );
 }
