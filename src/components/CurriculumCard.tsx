@@ -10,15 +10,16 @@ import { Link } from 'react-router-dom';
 import ReactGA from 'react-ga';
 
 function CurriculumCard(props: any) {
-  const { key, curriculumId, name, duration, slug, url } = props;
+  const { curriculumId, name, duration, slug, url } = props;
   const handleclick = () => {
     ReactGA.event({
       category: 'Navigation',
       action: 'Moved to Task page',
     });
   };
+
   return (
-    <Card className="card" key={key}>
+    <Card className="card">
       <Grid container direction="row" justify="space-between">
         <Grid item md={4}>
           <CardMedia component={'img'} image={url} title={name} />

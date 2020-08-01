@@ -6,20 +6,21 @@ import Container from '@material-ui/core/Container';
 import axios from '../config/axios.config';
 import { Redirect } from 'react-router-dom';
 import ReactGA from 'react-ga';
-function Login() {
-  const [userLogin, setUserLogin] = useState({ email: '', password: '' });
 
-  const [isLogin, setIsLogin] = useState(false);
-
+function SignUp() {
+  const [userSignUp, setUserSignUp] = useState({
+    username: '',
+    name: '',
+    email: '',
+    password: '',
+  });
+  const [isSignUp, setIsSignUp] = useState(false);
   const handleSignup = () => {
     axios
-
-      .post('api/auth/login', userLogin)
+      .post('api/auth/signup', userSignUp)
       .then((response) => {
-        console.log(response);
         localStorage.setItem('Token', response.data.data.jwtToken);
-
-        setIsLogin(!isLogin);
+        setIsSignUp(!isSignUp);
       })
       .catch((error) => {
         console.log(error);
@@ -30,23 +31,50 @@ function Login() {
     e.preventDefault();
     ReactGA.event({
       category: 'User',
-      action: 'logged in an Account',
+      action: 'Created an Account',
     });
     handleSignup();
   };
-  if (isLogin) {
+  if (isSignUp) {
     return <Redirect to="/" />;
   }
   const handleChange = (event: any) => {
-    setUserLogin({ ...userLogin, [event.target.name]: event.target.value });
+    setUserSignUp({ ...userSignUp, [event.target.name]: event.target.value });
   };
   return (
     <div>
       <Container maxWidth="sm">
         <Typography component="h1" variant="h4" style={{ textAlign: 'center' }}>
-          Login
+          SignUp
         </Typography>
         <form onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="name"
+            name="name"
+            autoComplete="name"
+            autoFocus
+            defaultValue={userSignUp.name}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="username"
+            name="username"
+            autoComplete="username"
+            autoFocus
+            defaultValue={userSignUp.username}
+            onChange={handleChange}
+          />
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -57,7 +85,7 @@ function Login() {
             name="email"
             autoComplete="email"
             autoFocus
-            defaultValue={userLogin.email}
+            defaultValue={userSignUp.email}
             onChange={handleChange}
           />
           <TextField
@@ -70,11 +98,11 @@ function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
-            defaultValue={userLogin.password}
+            defaultValue={userSignUp.password}
             onChange={handleChange}
           />
           <Button type="submit" fullWidth variant="contained" color="primary">
-            Log In
+            SignUp
           </Button>
         </form>
       </Container>
@@ -82,4 +110,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;

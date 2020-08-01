@@ -8,7 +8,7 @@ import { Redirect } from 'react-router';
 type TaskType = any;
 
 function ListOfCurriculum() {
-  const [task, setTask] = useState([[]]);
+  const [task, setTask] = useState([]);
 
   const token: string = localStorage.getItem('Token') || '';
 
@@ -43,27 +43,25 @@ function ListOfCurriculum() {
   if (token === '') {
     return <Redirect to={'/login'} />;
   }
+
   return (
     <>
       <Header />
       <div className="container">
-        {task.map((card: TaskType) => {
-          return (
-            <Grid container spacing={2}>
-              <Grid item md={6}>
-                <CurriculumCard
-                  key={card.id + '#'}
-                  curriculumId={card.id}
-                  name={card.name}
-                  duration={card.duration}
-                  slug={card.slug}
-                  url={card.url}
-                  status={card.status}
-                />
-              </Grid>
+        {task.map((card: TaskType) => (
+          <Grid container spacing={2} key={card.id}>
+            <Grid item md={6}>
+              <CurriculumCard
+                curriculumId={card.id}
+                name={card.name}
+                duration={card.duration}
+                slug={card.slug}
+                url={card.url}
+                status={card.status}
+              />
             </Grid>
-          );
-        })}
+          </Grid>
+        ))}
       </div>
     </>
   );

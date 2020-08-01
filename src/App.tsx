@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-import Login from './romponents/Login';
-import SignUp from './romponents/SignUp';
-import ListOfCurriculum from './romponents/ListOfCurriculum';
-import Curriculum from './romponents/Curriculum';
-import Profile from './romponents/Profile';
-import Setting from './romponents/Setting';
-
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import ListOfCurriculum from './components/ListOfCurriculum';
+import Curriculum from './components/Curriculum';
+import Profile from './components/Profile';
+import Setting from './components/Setting';
 import ReactGA from 'react-ga';
 
 const App: React.ElementType = () => {
@@ -15,6 +14,7 @@ const App: React.ElementType = () => {
     ReactGA.initialize('UA-173643032-1');
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
+
   return (
     <div>
       <Router>
@@ -26,7 +26,6 @@ const App: React.ElementType = () => {
           <Route exact path="/profile" component={Profile} />
 
           <Route exact path="/setting" component={Setting} />
-
         </Switch>
       </Router>
     </div>
