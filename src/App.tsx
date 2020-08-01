@@ -8,10 +8,11 @@ import Curriculum from './romponents/Curriculum';
 import Profile from './romponents/Profile';
 import Setting from './romponents/Setting';
 import ReactGA from 'react-ga';
+require('dotenv').config();
 
 const App: React.ElementType = () => {
   useEffect(() => {
-    ReactGA.initialize('UA-173643032-1');
+    ReactGA.initialize('{process.env.REACT_APP_KEY}');
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
   return (
