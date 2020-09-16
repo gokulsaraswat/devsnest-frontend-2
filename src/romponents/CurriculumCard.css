@@ -1,6 +1,7 @@
 .card-horizontal {
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-  height: 258px;
+  /* height: 258px; */
+  height: auto;
   background-color: #1c484a;
 }
 
@@ -20,6 +21,10 @@
   font-family: Barlow;
   font-size: 17px;
   font-weight: normal;
+  white-space: nowrap;
+  width: 80%;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .Explore-btn {
@@ -35,8 +40,7 @@
 }
 
 .image {
-  padding: 15%;
-  clip-path: inset(5% 20% 15% 10%);
+  padding: 1.25rem;
 }
 
 .row {
@@ -44,16 +48,31 @@
   margin-left: 0 !important;
 }
 
+.text-muted {
+  border: none;
+  padding: 1.25rem;
+}
+
 .container_padding {
   padding-right: 13% !important;
   padding-left: 13% !important;
 }
 
+/* .komak{
+  overflowY: 'scroll',
+  border:'1px solid red',
+  width:'500px',
+  float: 'left',
+  height:'500px',
+  position:'relative'
+} */
+
 .Progressbar {
-  height: 13px;
+  height: 14px;
   width: 90%;
+  padding: 0px;
   font-weight: bolder;
-  font-size: 13px;
+  font-size: 12px;
   color: white;
 }
 html,
@@ -82,5 +101,10 @@ body {
 
   .card-body {
     padding: 2.25rem;
+  }
+
+  .text-muted {
+    margin-left: 14px;
+    border: none;
   }
 }
