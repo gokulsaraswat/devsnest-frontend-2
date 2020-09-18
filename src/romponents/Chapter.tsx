@@ -3,6 +3,7 @@ import Card from '@material-ui/core/Card';
 import Checkbox from '@material-ui/core/Checkbox';
 import CardContent from '@material-ui/core/CardContent';
 import { Chart } from 'chart.js';
+import ChapterCard from './ChapterCard';
 import { Progress } from 'reactstrap';
 import { Doughnut } from 'react-chartjs-2';
 import Container from '@material-ui/core/Container';
@@ -23,10 +24,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
-// import {Sonnet} from 'react-bootstrap';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
-
-// import Tabs from 'react-bootstrap/Tabs'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -73,7 +71,6 @@ export interface Props {
 }
 
 function Chapter({ task, updateAllTasks }: Props) {
-  console.log(task, '---task-komal--');
   const classes = useStyles();
 
   const [expanded, setExpanded] = useState(false);
@@ -192,149 +189,46 @@ function Chapter({ task, updateAllTasks }: Props) {
   console.log(task, 'task');
   return (
     <>
-      <div
-        className="nav flex-column nav-pills"
-        id="v-pills-tab"
-        role="tablist"
-        aria-orientation="vertical"
-      >
-        <a
-          className="nav-link active"
-          id="v-pills-home-tab"
-          data-toggle="pill"
-          href="#v-pills-home"
-          role="tab"
-          aria-controls="v-pills-home"
-          aria-selected="true"
-        >
-          Home
-        </a>
-        <a
-          className="nav-link"
-          id="v-pills-profile-tab"
-          data-toggle="pill"
-          href="#v-pills-profile"
-          role="tab"
-          aria-controls="v-pills-profile"
-          aria-selected="false"
-        >
-          Profile
-        </a>
-        <a
-          className="nav-link"
-          id="v-pills-messages-tab"
-          data-toggle="pill"
-          href="#v-pills-messages"
-          role="tab"
-          aria-controls="v-pills-messages"
-          aria-selected="false"
-        >
-          Messages
-        </a>
-        <a
-          className="nav-link"
-          id="v-pills-settings-tab"
-          data-toggle="pill"
-          href="#v-pills-settings"
-          role="tab"
-          aria-controls="v-pills-settings"
-          aria-selected="false"
-        >
-          Settings
-        </a>
-      </div>
-      <div className="tab-content" id="v-pills-tabContent">
-        <div
-          className="tab-pane fade show active"
-          id="v-pills-home"
-          role="tabpanel"
-          aria-labelledby="v-pills-home-tab"
-        >
-          ...
-        </div>
-        <div
-          className="tab-pane fade"
-          id="v-pills-profile"
-          role="tabpanel"
-          aria-labelledby="v-pills-profile-tab"
-        >
-          ...
-        </div>
-        <div
-          className="tab-pane fade"
-          id="v-pills-messages"
-          role="tabpanel"
-          aria-labelledby="v-pills-messages-tab"
-        >
-          ...
-        </div>
-        <div
-          className="tab-pane fade"
-          id="v-pills-settings"
-          role="tabpanel"
-          aria-labelledby="v-pills-settings-tab"
-        >
-          ...
-        </div>
-      </div>
+      <Grid container>
+        <Grid item md={4} style={{ marginTop: '20px' }}>
+          <Grid style={{ padding: '10px' }}>
+            <Paper className={classes.paper} style={{}}>
+              <CardContent>
+                <Typography>
+                  <h5> {task ? task.text : null}</h5>
+                </Typography>
 
-      {/* <Grid container style={{marginTop:'20px'}} >
-        <Grid item md={4} style={{ padding:'10px' }} >
-         <Paper  className={classes.paper} style={{}} >
-          <CardContent style={{}}>
-        
-            <Typography>
-            <h5> {task ? task.text : null}</h5>
-          </Typography>
-     
-        <Grid container direction={'row'} spacing={3}  style={{marginTop:'20px'}}>
-        <Grid item xl={6} md={8} sm={8} xs={12}>
-         <Progress style={{ backgroundColor: '#F1A615' }}
-                value={30}
-                />
-        
+                <Grid
+                  container
+                  direction={'row'}
+                  spacing={3}
+                  style={{ marginTop: '20px' }}
+                >
+                  <Grid item xl={6} md={8} sm={8} xs={12}>
+                    <Progress
+                      style={{ backgroundColor: '#F1A615' }}
+                      value={30}
+                    />
+                  </Grid>
+                  <Grid item xl={6} md={4} sm={4} xs={12}>
+                    <Button
+                      className={classes.buttonTop}
+                      style={{ backgroundColor: '#F1A615' }}
+                      onClick={handleExpandClick}
+                    >
+                      Explore
+                    </Button>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item xl={6} md={4} sm={4} xs={12}>
-        <Button className={classes.buttonTop} style={{backgroundColor:'#F1A615' }} onClick = {handleExpandClick}>Explore</Button>
+
+        <Grid item md={8}>
+          {expanded && <ChapterCard subTasks={subTasks} />}
         </Grid>
       </Grid>
-        </CardContent>
-        
-          </Paper>
-
-          
-        </Grid>
-
-    
-{ expanded && */}
-      {/* <Grid item md={8} >
-<Container>
-<TableContainer component={Paper}>
-    <Table>
-     <TableBody>
-        {subTasks
-            ? subTasks.map((subTask: any) => (
-          <StyledTableRow>
-             <StyledTableCell>
-          <Typography>
-           {subTask.name}
-          </Typography>
-           </StyledTableCell>
-
-          </StyledTableRow>
-            
-          ))
-            : null}
-       </TableBody>     
-     
-       </Table>
-      </TableContainer>
-       </Container>
-        </Grid>
-    
-    
-}
-</Grid> */}
 
       {/* <div className="container" key={task.id}>
         <Card style={{ backgroundColor:'yellow',boxShadow: ' 4px 4px 8px 4px rgba(0,0,0,0.2)' }}>
